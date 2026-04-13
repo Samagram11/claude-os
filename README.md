@@ -4,44 +4,67 @@
 
 Every team at a company already uses AI — engineers code with copilots, sales drafts with assistants, CS summarizes with chatbots. But these AI outputs are siloed. No system connects what one team's AI produces to what another team needs.
 
-ClaudeOS changes that. It connects to a company's data sources, maintains a shared knowledge base (the company wiki), and surfaces cross-cutting insights that no single person or agent could find alone.
+ClaudeOS changes that. It connects to a company's data sources, maintains a shared knowledge base (the company wiki), and coordinates AI agents that work both proactively and reactively — surfacing what you're missing, and delivering what you ask for.
 
-This is a working prototype that demonstrates the concept with a simulated company scenario.
+This is a working prototype that demonstrates three capabilities with a simulated company scenario.
 
 ![Architecture](architecture-diagram.svg)
 
 ---
 
-## The Demo
+## The Company
 
-You'll see a simulated company called **Meridian** (50-person B2B SaaS, $8M ARR). Three things are happening in parallel across the company — and nobody has connected them:
+**Meridian** — a 50-person B2B SaaS company, $8M ARR, 50 customers. They use ClaudeOS to coordinate across sales, product, and engineering.
 
-1. **A customer emails** asking about a feature (rules-based alerting)
-2. **An engineer posts in Slack** that he built that exact feature at a hackathon — and is looking for a beta tester
-3. **The CRM flags** that same customer as at-risk, and their **$1M renewal** cancellation window closes today
+## Three Capabilities
 
-Three agents each see one piece. The Connector reads the full wiki and finds the blindspot: the feature the customer wants already exists, built by AI in 2 days, sitting in a branch. Ship it now and save the renewal.
+### 1. Proactive Intelligence — "What are you missing?"
 
-The CEO approves. The Head of Sales gets a personalized action plan. The decision is committed to git.
+Data flows into ClaudeOS from email, Slack, CRM, and spreadsheets. Domain agents monitor each source and update the shared wiki. The Operations Agent reads across the entire wiki and surfaces cross-cutting insights that no single person or agent could find alone.
+
+**The demo scenario:** Three things are happening in parallel at Meridian — and nobody has connected them:
+- A customer emails asking about a feature (rules-based alerting)
+- An engineer posts in Slack that he built that exact feature at a hackathon — and is looking for a beta tester
+- The CRM flags that same customer as at-risk, and their $1M renewal cancellation window closes today
+
+The Operations Agent connects the dots: the feature the customer wants already exists. Ship it now and save the renewal.
+
+**How to see it:** Log in as **Priya Sharma** (CEO) and press **Go**.
+
+### 2. Coordinated Action — "Everyone gets their part"
+
+When the CEO approves an action, ClaudeOS doesn't just log a decision — it cascades personalized next steps to the right people. Each team member sees a view tailored to their role, with the context they need to act.
+
+**The demo scenario:** Priya approves "ship smart alerts to Halcyon this week." Sarah Chen (Head of Sales) immediately sees her dashboard update with specific action items: call the customer, schedule a demo, coordinate with the engineer who built the feature.
+
+**How to see it:** After approving an action in Priya's view, click **"View [person]'s dashboard"**.
+
+### 3. Reactive Orchestration — "Plan the Q3 roadmap"
+
+A human assigns a complex task and the Operations Agent coordinates an agent team to deliver it. The lead agent breaks the task into subtasks, domain agents research in parallel using the wiki, they share findings with each other, and the lead synthesizes everything into a deliverable.
+
+**The demo scenario:** Lin Zhang (Head of Product) asks ClaudeOS to plan the Q3 roadmap. Three agents work in parallel — one gathers customer feature requests, one checks engineering capacity and prototypes, one identifies at-risk accounts. Their findings flow to the Planner, which drafts a prioritized roadmap: Smart Alerts is Priority 1 (Halcyon needs it, prototype exists), Dashboard Embedding is Priority 2 (DataBridge is evaluating Tableau over this gap).
+
+**How to see it:** Switch to **Lin Zhang** (Head of Product) and press **Plan Q3 Roadmap**.
+
+---
 
 ## How It Works
 
 ```
-Data Sources → Specialized Agents → Company Wiki → The Connector → Human Decision
+Data Sources ──→ Domain Agents ──→ Company Wiki ←──→ Operations Agent ←──→ Human
+     (MCP)         (Sonnet)       (git-backed)         (Opus)
 ```
 
-| Component | What it does |
-|-----------|-------------|
-| **Data Sources** | Email, Slack, CRM, spreadsheets (simulated, connected via MCP) |
-| **Customer Agent** | Reads email, logs feature requests to the wiki |
-| **Product Agent** | Reads Slack, updates project pages and engineer profiles |
-| **Sales Agent** | Reads CRM + spreadsheets, cross-references to flag deal risks |
-| **The Connector** | Reads the entire wiki, finds cross-domain blindspots (Claude Opus) |
-| **Company Wiki** | Git-backed markdown knowledge base — the shared world model |
+| Component | Role |
+|-----------|------|
+| **Data Sources** | Email, Slack, CRM, spreadsheets — connected via MCP servers |
+| **Domain Agents** | Customer Agent, Product Agent, Sales Agent — each monitors one source and updates the wiki |
+| **Company Wiki** | Git-backed markdown knowledge base — the shared world model. People, projects, customers, deals, risks, roadmaps. |
+| **Operations Agent** | Reads the full wiki. Proactive: finds blindspots. Reactive: coordinates agent teams for tasks. Powered by Claude Opus with extended thinking. |
+| **Human Layer** | Multi-player — each person sees a role-specific view. Decisions cascade to the right people. |
 
-The wiki pages are pre-populated with realistic company data (people, projects, customers, deal history). When agents run, they update these pages with new information. The Connector then reads the enriched wiki and finds connections no individual agent could see.
-
-**Everything is real.** The only pre-written content is the source data (simulated emails, Slack posts, etc.) and the wiki seed. All agent analysis, wiki updates, and blindspot synthesis are live Claude API calls.
+**Everything is real.** The only pre-written content is the source data (simulated emails, Slack posts, etc.) and the wiki seed. All wiki updates, blindspot synthesis, agent communication, and roadmap generation are live Claude API calls.
 
 ---
 
@@ -65,7 +88,7 @@ Create a `.env.local` file:
 ANTHROPIC_API_KEY=your-key-here
 ```
 
-Initialize the wiki's git repo (needed for agent commits and diff tracking):
+Initialize the wiki's git repo:
 
 ```bash
 cd commons
@@ -81,55 +104,32 @@ cd ..
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) (or whatever port is shown).
+Open [http://localhost:3000](http://localhost:3000).
 
-### Demo Flow
+### Demo Walkthrough
 
-1. **Press "Go"** — watch data flow in from the left, agents light up in the middle, and wiki pages update on the right
-2. **Click any node** in the flow diagram to open the file drawer and read the source data or wiki page
-3. **Watch the Connector** synthesize across all signals (this takes 15-30 seconds — it's Claude Opus with extended thinking)
-4. **Review the blindspot** — read the insight, expand the rationale, select a recommended action
-5. **Approve** — the decision is committed to git
-6. **Click "View [person]'s dashboard"** — see the personalized action plan the relevant team member receives
-7. **Click "Meridian Wiki"** in the top nav to browse the full knowledge base and see what agents changed
+**Capability 1 — Proactive Intelligence:**
+1. As Priya Sharma, press **Go**
+2. Watch data flow in and agents update the wiki in real-time
+3. The Operations Agent synthesizes a blindspot
+4. Review the insight, select an action, approve
+
+**Capability 2 — Coordinated Action:**
+5. Click **"View [person]'s dashboard"** to see the personalized action plan
+
+**Capability 3 — Reactive Orchestration:**
+6. Switch to **Lin Zhang** and press **Plan Q3 Roadmap**
+7. Watch the agent team coordinate — task board, agent messages, shared findings
+8. Review the draft roadmap (informed by the same wiki the agents enriched)
+
+**Explore the wiki:**
+- Click **Meridian Wiki** in the nav to browse the full knowledge base
+- Click any file name in the flow diagram or agent messages to open the file drawer
+- Wiki pages show green "Recently updated" boxes with what agents changed
 
 ### Reset
 
-Press **Reset** to restore the wiki to its seed state and clear all generated files. You can run the demo again — the agents will generate fresh analysis each time.
-
----
-
-## Demo 2: Roadmap Planner (Agent Teams)
-
-The first demo shows **reactive** coordination — data flows in, agents find a blindspot. The second demo shows **proactive** coordination — a human initiates a task and an agent team collaborates to produce a deliverable.
-
-### How to run it
-
-1. Switch to **Lin Zhang** (Head of Product) in the user switcher
-2. Press **"Plan Q3 Roadmap"**
-3. Watch the agent team in action:
-   - **The Planner** breaks the task into research subtasks
-   - **Customer Agent**, **Product Agent**, and **Sales Agent** work in parallel — reading the wiki and reporting findings
-   - Agent messages appear in real-time showing what each agent found
-   - The Planner synthesizes all findings into a draft roadmap
-4. The roadmap is written to the Meridian Wiki and rendered inline
-5. Click **"View in wiki"** to see the full page in the file drawer
-
-### What this demonstrates
-
-This mirrors the **Claude Code Agent Teams** pattern:
-- A **lead agent** breaks work into subtasks and assigns them
-- **Domain agents** work in parallel with scoped read access to the wiki
-- Agents **message their findings** back to the lead
-- The lead **synthesizes** into a final deliverable
-- The wiki is the **shared state** that all agents read from
-
-### The smart connection
-
-The roadmap prioritizes based on what the wiki knows:
-- **Smart Alerts** is Priority 1 because Halcyon Health ($1M ARR) is at risk and the prototype already exists
-- **Dashboard Embedding** is Priority 2 because DataBridge Co ($320K ARR) is evaluating Tableau over this gap
-- If you ran Demo 1 first, the wiki is enriched with the blindspot data — making the roadmap even more informed
+Press **Reset** to restore the wiki to its seed state. Each run generates fresh analysis.
 
 ---
 
@@ -137,20 +137,19 @@ The roadmap prioritizes based on what the wiki knows:
 
 - **No database.** The wiki is git-tracked markdown. That IS the database.
 - **No vector store / RAG.** Claude's 1M-token context reads files directly.
-- **No faked outputs.** Agent signals, wiki updates, and blindspot synthesis are all live API calls.
-- **Agents can only update existing wiki pages** (not create new files) — this enforces the shared-state model.
-- **Git = audit trail.** Every agent write is a commit with the agent name as author. Every human decision is a commit too.
+- **No faked outputs.** Every wiki update, blindspot, and roadmap is a live API call.
+- **Agents can only update existing wiki pages** — enforces the shared-state model.
+- **Git = audit trail.** Every agent write is a commit with attribution.
 
 ## Stack
 
-- Next.js 16 (App Router)
-- Tailwind CSS v4
-- @anthropic-ai/sdk (Claude Sonnet for domain agents, Claude Opus for the Connector)
-- simple-git (git operations for the wiki)
-- react-markdown (rendering wiki content)
+- Next.js 16 (App Router), Tailwind CSS v4
+- @anthropic-ai/sdk (Claude Sonnet for domain agents, Claude Opus for Operations Agent)
+- simple-git (wiki version control)
+- react-markdown (wiki rendering)
 
 ---
 
 ## Read More
 
-See [memo.md](memo.md) for the full thesis on why this capability matters and how it represents a $10B+ opportunity for Anthropic.
+See [memo.md](memo.md) for the full thesis on why this capability matters and how it represents a major opportunity for Anthropic.

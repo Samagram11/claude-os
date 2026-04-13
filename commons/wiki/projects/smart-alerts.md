@@ -1,11 +1,11 @@
 ---
 type: project
-last_updated: 2026-04-12
-updated_by: engineering-radar
+last_updated: 2026-03-25
+updated_by: james-wright
 ---
 
 # Smart Alerts
-**Status:** Prototype complete — actively seeking beta customer
+**Status:** Prototype complete
 **Built by:** [[james-wright]], with contributions from [[lin-zhang]] (spec review)
 **Created:** March 2026 hackathon
 **Branch:** `feature/smart-alerts`
@@ -33,7 +33,6 @@ Rules-based alerting system for the [[meridian-platform]]. Lets users define thr
 - **Mar 21:** Dashboard UI integration, multi-channel delivery
 - **Mar 22:** Demo video recorded, posted in #engineering-hackathon
 - **Mar 25:** [[lin-zhang]] reviewed spec, approved architecture. Merge blocked pending customer validation.
-- **Apr 12:** Engineering Radar confirms beta customer search is still open — [[james-wright]] has received no responses to his #engineering-hackathon callout as of today. [[sarah-chen]] notes customers have requested alerting; no connection made yet between sales demand and this prototype. (Updated 2026-04-12 from Slack #engineering-hackathon)
 
 ## Pull Requests
 - `#247` — Core alerting engine (merged to feature branch)
@@ -43,6 +42,5 @@ Rules-based alerting system for the [[meridian-platform]]. Lets users define thr
 
 ## Notes
 - Most requested feature from enterprise customers per Q1 feedback survey
-- No customer beta tester identified yet — [[james-wright]] publicly asked in #engineering-hackathon on 2026-03-22 with no replies
-- [[sarah-chen]] manages accounts that have explicitly requested alerting but has not been briefed on this prototype
-- [[lin-zhang]] approved architecture but merge is blocked pending customer validation
+- No customer beta tester identified yet
+- No one from sales has reviewed or been briefed on this capability

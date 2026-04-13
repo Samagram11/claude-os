@@ -1,6 +1,8 @@
 "use client";
 
 import { Bell, AlertTriangle, CheckCircle, ArrowRight, ArrowLeft, Clock } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { BlindspotData } from "./types";
 import { useCallback } from "react";
 
@@ -10,30 +12,48 @@ const WIKI_PATHS: Record<string, string> = {
   "halcyon-health": "wiki/deals/halcyon-health.md",
   "priya-sharma": "wiki/people/priya-sharma.md",
   "sarah-chen": "wiki/people/sarah-chen.md",
+  "lin-zhang": "wiki/people/lin-zhang.md",
   "customer-requests": "wiki/customer-requests.md",
   "deal-risks": "wiki/deal-risks.md",
 };
 
-interface SalesViewProps {
+function convertWikiLinks(text: string): string {
+  return text.replace(/\[\[([^\]]+)\]\]/g, (_, link) => `[${link}](#wiki-${link})`);
+}
+
+interface ActionOwnerViewProps {
   blindspot: BlindspotData | null;
   committed: boolean;
   approvedOption: string | null;
+  approvedPersonName: string | null;
+  approvedOptionDetail: string | null;
   isRunning: boolean;
   onBack: () => void;
   onFileClick: (path: string) => void;
 }
 
-function WikiLink({ name, onFileClick }: { name: string; onFileClick: (path: string) => void }) {
-  const path = WIKI_PATHS[name];
-  if (!path) return <span className="text-ink font-medium">{name}</span>;
-  return (
-    <button onClick={() => onFileClick(path)} className="text-accent hover:underline font-medium">
-      {name.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")}
-    </button>
-  );
-}
+export default function ActionOwnerView({
+  blindspot,
+  committed,
+  approvedOption,
+  approvedPersonName,
+  approvedOptionDetail,
+  isRunning,
+  onBack,
+  onFileClick,
+}: ActionOwnerViewProps) {
+  const handleLinkClick = useCallback((e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    const link = target.closest("a");
+    if (!link) return;
+    const href = link.getAttribute("href");
+    if (!href?.startsWith("#wiki-")) return;
+    e.preventDefault();
+    const wikiName = href.replace("#wiki-", "");
+    const resolvedPath = WIKI_PATHS[wikiName];
+    if (resolvedPath) onFileClick(resolvedPath);
+  }, [onFileClick]);
 
-export default function SalesView({ blindspot, committed, approvedOption, isRunning, onBack, onFileClick }: SalesViewProps) {
   if (isRunning) {
     return (
       <div className="max-w-[700px] mx-auto px-8 py-12">
@@ -45,7 +65,7 @@ export default function SalesView({ blindspot, committed, approvedOption, isRunn
           <Clock size={28} strokeWidth={1.5} className="text-ink-dim mx-auto mb-4" />
           <h2 className="text-h2 text-ink mb-2">Agents are running</h2>
           <p className="text-[15px] text-ink-muted">
-            Claude OS is scanning company data sources. You&apos;ll be notified if anything requires your attention.
+            ClaudeOS is scanning company data sources. You&apos;ll be notified if anything requires your attention.
           </p>
         </div>
       </div>
@@ -63,7 +83,7 @@ export default function SalesView({ blindspot, committed, approvedOption, isRunn
           <Bell size={28} strokeWidth={1.5} className="text-ink-dim mx-auto mb-4" />
           <h2 className="text-h2 text-ink mb-2">No updates yet</h2>
           <p className="text-[15px] text-ink-muted">
-            You&apos;ll see notifications here when decisions are made that affect your accounts.
+            You&apos;ll see notifications here when decisions are made that affect your work.
           </p>
         </div>
       </div>
@@ -88,8 +108,7 @@ export default function SalesView({ blindspot, committed, approvedOption, isRunn
               </span>
               <h3 className="text-h2 text-ink mt-1 mb-2">{blindspot.title}</h3>
               <p className="text-[14px] text-ink-muted leading-relaxed mb-4">
-                A cross-cutting insight has been identified about your <WikiLink name="halcyon-health" onFileClick={onFileClick} /> account.
-                Priya Sharma is reviewing the options.
+                A cross-cutting insight has been identified. Priya Sharma is reviewing the options.
               </p>
               <div className="flex items-center gap-2 text-[13px] text-ink-dim">
                 <Clock size={14} strokeWidth={1.5} />
@@ -119,46 +138,32 @@ export default function SalesView({ blindspot, committed, approvedOption, isRunn
               Action Required
             </span>
             <h3 className="text-h2 text-ink mt-1 mb-2">
-              Halcyon Health — Save the Renewal
+              {approvedOption}
             </h3>
             <p className="text-[14px] text-ink-muted leading-relaxed mb-3">
-              Priya reviewed a cross-domain analysis and approved an action plan for the <WikiLink name="halcyon-health" onFileClick={onFileClick} /> account.
+              Priya Sharma reviewed a cross-domain analysis and approved this action{approvedPersonName ? ` for ${approvedPersonName}` : ""}.
             </p>
 
-            <div className="bg-elevated rounded-lg p-4 mb-4">
-              <div className="flex items-center gap-2 mb-1">
-                <CheckCircle size={14} strokeWidth={1.5} className="text-success" />
-                <span className="text-[13px] font-medium text-ink">Approved Action</span>
+            {/* Render the Connector's actual option details */}
+            {approvedOptionDetail && (
+              <div className="border-t border-border-subtle pt-4" onClick={handleLinkClick}>
+                <div className="flex items-center gap-2 mb-2">
+                  <ArrowRight size={14} strokeWidth={1.5} className="text-accent" />
+                  <span className="text-[13px] font-medium text-ink">Details</span>
+                </div>
+                <div className="text-[13px] text-ink-muted leading-[21px]
+                  [&_p]:mb-2
+                  [&_ul]:pl-4 [&_ul]:space-y-1 [&_ul]:mb-2
+                  [&_li]:text-[13px] [&_li]:leading-[21px]
+                  [&_strong]:text-ink [&_strong]:font-medium
+                  [&_a]:text-accent [&_a]:no-underline hover:[&_a]:underline [&_a]:cursor-pointer
+                ">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {convertWikiLinks(approvedOptionDetail)}
+                  </ReactMarkdown>
+                </div>
               </div>
-              <p className="text-[14px] text-ink-muted leading-relaxed pl-[22px]">
-                {approvedOption}
-              </p>
-            </div>
-
-            <div className="border-t border-border-subtle pt-4">
-              <div className="flex items-center gap-2 mb-2">
-                <ArrowRight size={14} strokeWidth={1.5} className="text-accent" />
-                <span className="text-[13px] font-medium text-ink">Your next steps</span>
-              </div>
-              <ul className="space-y-2 pl-[22px]">
-                <li className="text-[13px] text-ink-muted flex items-start gap-2">
-                  <span className="text-ink-dim mt-1.5 shrink-0">&#x2022;</span>
-                  <span>Reach out to Rachel Park (VP Product) at Halcyon — tell her <WikiLink name="smart-alerts" onFileClick={onFileClick} /> is shipping this week</span>
-                </li>
-                <li className="text-[13px] text-ink-muted flex items-start gap-2">
-                  <span className="text-ink-dim mt-1.5 shrink-0">&#x2022;</span>
-                  <span>Schedule a demo with their team before the cancellation window closes</span>
-                </li>
-                <li className="text-[13px] text-ink-muted flex items-start gap-2">
-                  <span className="text-ink-dim mt-1.5 shrink-0">&#x2022;</span>
-                  <span>Coordinate with <WikiLink name="james-wright" onFileClick={onFileClick} /> — he built the feature and is looking for a beta customer</span>
-                </li>
-                <li className="text-[13px] text-ink-muted flex items-start gap-2">
-                  <span className="text-ink-dim mt-1.5 shrink-0">&#x2022;</span>
-                  <span>Update the <WikiLink name="deal-risks" onFileClick={onFileClick} /> page once outreach is complete</span>
-                </li>
-              </ul>
-            </div>
+            )}
           </div>
         </div>
       </div>

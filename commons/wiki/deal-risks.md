@@ -6,14 +6,14 @@ updated_by: deal-agent
 
 # Deal Risks
 
-Active and historical risks to customer renewals and expansion deals. Updated by the Deal Agent when new risk signals are detected from CRM notes, financial data, or customer communications.
+Active and historical risks to customer renewals and expansion deals. Updated by the Sales Agent when new risk signals are detected from CRM notes, financial data, or customer communications.
 
 ## Active Risks
 
 | Date Flagged | Account | Risk | Severity | Status | Owner |
 |-------------|---------|------|----------|--------|-------|
+| 2026-04-12 | [[halcyon-health]] | Disengaged CTO (3 consecutive QBRs), VP Product no-show, competitor demos confirmed; $1M ARR renewal May 5, cancellation window closes today | Critical | Escalate Immediately | [[sarah-chen]] |
 | 2026-03-15 | DataBridge Co | Competitor eval (Tableau) — DataBridge needs dashboard embedding for their client portal; Tableau offers it natively | Medium | Monitoring | [[sarah-chen]] |
-| 2026-04-12 | [[halcyon-health]] | Disengaged CTO/champion; competitor demos flagged; $1M ARR renewal May 5; cancellation window closes today. | Critical | Immediate Action Required | [[sarah-chen]] |
 
 ## Resolved Risks
 
