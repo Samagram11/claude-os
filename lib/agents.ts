@@ -11,7 +11,8 @@ interface AgentConfig {
   systemPrompt: string;
   allowedReadPaths: string[];
   allowedWritePaths: string[];
-  updateOnly?: boolean; // If true, can only write to files that already exist (no new files)
+  updateOnly?: boolean;
+  userMessage?: string; // Override the default user message
   model?: string;
   extendedThinking?: boolean;
 }
@@ -182,9 +183,10 @@ export async function runAgent(config: AgentConfig): Promise<AgentResult> {
     ? tools
     : tools.filter((t) => t.name !== "write_file");
 
-  const userMessage = hasWritePaths
-    ? "Scan your assigned data sources and update the relevant wiki pages. Be specific, cite evidence, and link to relevant wiki pages with [[wikilinks]]."
-    : "Read the wiki pages relevant to your task and report your findings. Be specific — cite names, numbers, dates.";
+  const userMessage = config.userMessage
+    || (hasWritePaths
+      ? "Scan your assigned data sources and update the relevant wiki pages. Be specific, cite evidence, and link to relevant wiki pages with [[wikilinks]]."
+      : "Read the wiki pages relevant to your task and report your findings. Be specific — cite names, numbers, dates.");
 
   const messages: Anthropic.MessageParam[] = [
     { role: "user", content: userMessage },

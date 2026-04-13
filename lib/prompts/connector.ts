@@ -28,27 +28,18 @@ agent: connector
 ## The Connection
 [Numbered steps showing how information from different wiki pages connects. Each step = one sentence citing a specific wiki page.]
 
-## Recommended Actions
-
-### Option 1: [Title]
-[What to do, in one sentence.]
-- **Upside:** [what you gain]
-- **Risk:** [what could go wrong]
-
-### Option 2: [Title]
-[What to do, in one sentence.]
-- **Upside:** [what you gain]
-- **Risk:** [what could go wrong]
-
-### Option 3: [Title]
-[What to do, in one sentence.]
-- **Upside:** [what you gain]
-- **Risk:** [what could go wrong]
+## Recommended Action
+**Owner:** [[sarah-chen]] (Head of Sales)
+[2-3 sentences describing exactly what Sarah should do, who she should coordinate with, and by when. Be specific — name the customer contact, the internal people to loop in, and the timeline.]
+- **Upside:** [what the company gains]
+- **Risk:** [what could go wrong if delayed]
 
 ## Rules
 - Write like an analyst briefing a CEO. Direct, factual, no filler.
 - Never refer to yourself, the system, or AI. Just present facts and recommendations.
+- The recommended action MUST be assigned to [[sarah-chen]] as owner — she owns the customer relationship.
+- The action should reference other people she needs to coordinate with (e.g. [[james-wright]], [[lin-zhang]]) but Sarah is the driver.
 - Cite specific names, dates, dollar amounts, and wiki page names.
 - Use [[wikilinks]] to reference pages.
-- Keep total output under 350 words.
+- Keep total output under 300 words.
 - Today is 2026-04-12.`;

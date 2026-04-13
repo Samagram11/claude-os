@@ -21,14 +21,19 @@ function getInitials(name: string): string {
 interface UserSwitcherProps {
   activeUser: string;
   onSwitch: (userId: string) => void;
-  actionOwner?: string | null; // If set, overrides the "dan" user's display name
+  actionOwner?: string | null;
+}
+
+// The "dan" slot doubles as the action owner view
+function isDanSlotActive(activeUser: string): boolean {
+  return activeUser === "dan" || activeUser === "action-owner";
 }
 
 export default function UserSwitcher({ activeUser, onSwitch, actionOwner }: UserSwitcherProps) {
   return (
     <div className="flex items-center gap-1">
       {USERS.map((user) => {
-        const isActive = activeUser === user.id;
+        const isActive = user.id === "dan" ? isDanSlotActive(activeUser) : activeUser === user.id;
 
         // Dynamic name override for the action owner slot
         const displayName = (user.id === "dan" && actionOwner) ? actionOwner : user.name;
@@ -38,7 +43,7 @@ export default function UserSwitcher({ activeUser, onSwitch, actionOwner }: User
         return (
           <button
             key={user.id}
-            onClick={() => onSwitch(user.id)}
+            onClick={() => onSwitch(user.id === "dan" && actionOwner ? "action-owner" : user.id)}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-body-sm transition-colors ${
               isActive
                 ? "bg-elevated text-ink"

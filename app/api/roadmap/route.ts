@@ -75,6 +75,7 @@ export async function POST() {
       systemPrompt: synthesizePrompt,
       allowedReadPaths: ["wiki/"],
       allowedWritePaths: ["wiki/roadmaps/"],
+      userMessage: "Synthesize the research findings into a Q3 2026 roadmap. Write it to wiki/roadmaps/q3-2026.md following the format in your instructions.",
     });
 
     if (synthesisResult.filesWritten.length > 0) {

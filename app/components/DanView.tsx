@@ -149,7 +149,7 @@ export default function ActionOwnerView({
               <div className="border-t border-border-subtle pt-4" onClick={handleLinkClick}>
                 <div className="flex items-center gap-2 mb-2">
                   <ArrowRight size={14} strokeWidth={1.5} className="text-accent" />
-                  <span className="text-[13px] font-medium text-ink">Details</span>
+                  <span className="text-[13px] font-medium text-ink">Your action items</span>
                 </div>
                 <div className="text-[13px] text-ink-muted leading-[21px]
                   [&_p]:mb-2

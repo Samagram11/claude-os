@@ -19,64 +19,9 @@ const WIKI_PATHS: Record<string, string> = {
   "deal-risks": "wiki/deal-risks.md",
 };
 
-// Map wiki names to display names for people
-const PEOPLE_NAMES: Record<string, string> = {
-  "sarah-chen": "Sarah Chen",
-  "james-wright": "James Wright",
-  "lin-zhang": "Lin Zhang",
-  "priya-sharma": "Priya Sharma",
-};
-
-interface ParsedOption {
-  title: string;
-  description: string;
-  upside: string;
-  risk: string;
-  rawBody: string; // full markdown body of this option section
-  mentionedPerson: string | null;
-  mentionedPersonName: string | null;
-}
-
-function stripWikiLinks(text: string): string {
-  return text.replace(/\[\[([^\]]+)\]\]/g, (_, name) => {
-    const displayName = PEOPLE_NAMES[name] || name.split("-").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
-    return displayName;
-  });
-}
-
-function findMentionedPerson(text: string): { key: string; name: string } | null {
-  for (const [key, name] of Object.entries(PEOPLE_NAMES)) {
-    if (key === "priya-sharma") continue; // Skip Priya — she's the one viewing
-    if (text.includes(`[[${key}]]`) || text.toLowerCase().includes(name.toLowerCase())) {
-      return { key, name };
-    }
-  }
-  return null;
-}
-
-function parseOptions(content: string): ParsedOption[] {
-  const options: ParsedOption[] = [];
-  const optRegex = /###\s*Option\s*\d[.:)]\s*(.+)\n([\s\S]*?)(?=###\s*Option\s*\d|## |$)/gi;
-  let match;
-  while ((match = optRegex.exec(content)) !== null && options.length < 3) {
-    const rawTitle = match[1].trim().replace(/\*\*/g, "");
-    const body = match[2].trim();
-    const fullText = rawTitle + " " + body;
-    const descLines = body.split("\n").filter((l) => !l.match(/^\s*[-*]\s*\*?\*?(Upside|Risk)\*?\*?:/i) && l.trim());
-    const upsideMatch = body.match(/\*?\*?Upside\*?\*?:\s*(.+)/i);
-    const riskMatch = body.match(/\*?\*?Risk\*?\*?:\s*(.+)/i);
-    const person = findMentionedPerson(fullText);
-    options.push({
-      title: stripWikiLinks(rawTitle),
-      description: stripWikiLinks(descLines[0]?.replace(/^[-*]\s*/, "").trim() || ""),
-      upside: stripWikiLinks(upsideMatch?.[1]?.trim() || ""),
-      risk: stripWikiLinks(riskMatch?.[1]?.trim() || ""),
-      rawBody: body,
-      mentionedPerson: person?.key || null,
-      mentionedPersonName: person?.name || null,
-    });
-  }
-  return options;
+function extractActionSection(content: string): string | null {
+  const match = content.match(/##\s*Recommended Action\b([\s\S]*?)(?=\n## |$)/i);
+  return match?.[1]?.trim() || null;
 }
 
 interface BlindspotCardProps {
@@ -100,20 +45,23 @@ export default function BlindspotCard({
   onViewPerson,
   approvedPersonName,
 }: BlindspotCardProps) {
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showRationale, setShowRationale] = useState(false);
 
-  const options = parseOptions(blindspot.content);
-
-  // Split content into summary and rationale
-  const summaryMatch = blindspot.content.split(/\n##\s*(?:The Connection|Rationale|The Chain)\b/i);
+  // Split content into summary (before "The Connection") and rationale
+  const summaryMatch = blindspot.content.split(/\n##\s*(?:The Connection|Rationale)\b/i);
   const summaryContent = summaryMatch[0]?.trim() || blindspot.content;
-  const rationaleMatch = blindspot.content.match(/##\s*(?:The Connection|Rationale|The Chain)\b([\s\S]*?)(?=\n##\s*Recommended Actions|$)/i);
+  const rationaleMatch = blindspot.content.match(/##\s*(?:The Connection|Rationale)\b([\s\S]*?)(?=\n##\s*Recommended Action|$)/i);
   const rationaleContent = rationaleMatch?.[1]?.trim() || null;
-  const summaryClean = summaryContent.split(/\n##\s*Recommended Actions/i)[0]?.trim() || summaryContent;
+
+  // Extract the recommended action section
+  const actionSection = extractActionSection(blindspot.content);
+
+  // Strip the options/action section from the summary display
+  const summaryClean = summaryContent.split(/\n##\s*Recommended Action/i)[0]?.trim() || summaryContent;
 
   const prepared = summaryClean.replace(/\[\[([^\]]+)\]\]/g, (_, link) => `[${link}](#wiki-${link})`);
   const rationalePrepped = rationaleContent?.replace(/\[\[([^\]]+)\]\]/g, (_, link) => `[${link}](#wiki-${link})`) || null;
+  const actionPrepped = actionSection?.replace(/\[\[([^\]]+)\]\]/g, (_, link) => `[${link}](#wiki-${link})`) || null;
 
   const handleLinkClick = useCallback((e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
@@ -133,7 +81,7 @@ export default function BlindspotCard({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <CheckCircle size={20} strokeWidth={1.5} className="text-success" />
-            <span className="text-[14px] font-medium text-ink">Decision committed</span>
+            <span className="text-[14px] font-medium text-ink">Decision approved</span>
           </div>
           {onViewPerson && approvedPersonName && (
             <button
@@ -183,7 +131,7 @@ export default function BlindspotCard({
         </article>
       </div>
 
-      {/* Rationale — collapsed by default */}
+      {/* Rationale — collapsed */}
       {rationalePrepped && (
         <div className="px-6 pb-3">
           <button
@@ -205,38 +153,22 @@ export default function BlindspotCard({
         </div>
       )}
 
-      {/* Selectable options with details */}
-      {options.length > 0 && (
-        <div className="px-6 pb-4">
-          <span className="text-label text-ink-dim block mb-2">Recommended Actions</span>
-          <div className="space-y-2">
-            {options.map((opt, i) => (
-              <button
-                key={opt.title}
-                onClick={() => setSelectedOption(i)}
-                className={`w-full text-left p-3 rounded-lg border transition-all ${
-                  selectedOption === i
-                    ? "border-accent bg-accent/[0.05]"
-                    : "border-border-subtle hover:bg-hover"
-                }`}
-              >
-                <span className={`text-[13px] font-medium block ${
-                  selectedOption === i ? "text-accent" : "text-ink"
-                }`}>
-                  {opt.title}
-                </span>
-                {opt.description && (
-                  <span className="text-[12px] text-ink-muted block mt-1">{opt.description}</span>
-                )}
-                {(opt.upside || opt.risk) && (
-                  <span className="text-[11px] text-ink-dim block mt-1">
-                    {opt.upside && `Upside: ${opt.upside}`}
-                    {opt.upside && opt.risk && " · "}
-                    {opt.risk && `Risk: ${opt.risk}`}
-                  </span>
-                )}
-              </button>
-            ))}
+      {/* Recommended action */}
+      {actionPrepped && (
+        <div className="px-6 pb-4" onClick={handleLinkClick}>
+          <span className="text-label text-ink-dim block mb-2">Recommended Action</span>
+          <div className="p-3 rounded-lg border border-accent/20 bg-accent/[0.03]">
+            <div className={`text-[13px] leading-[20px] text-ink-muted
+              [&_p]:mb-2 [&_p]:text-[13px]
+              [&_ul]:pl-4 [&_ul]:space-y-1 [&_ul]:mb-2
+              [&_li]:text-[13px]
+              [&_strong]:text-ink [&_strong]:font-medium
+              [&_a]:text-accent [&_a]:no-underline hover:[&_a]:underline [&_a]:cursor-pointer
+            `}>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {actionPrepped}
+              </ReactMarkdown>
+            </div>
           </div>
         </div>
       )}
@@ -244,25 +176,22 @@ export default function BlindspotCard({
       {/* Action bar */}
       <div className="px-6 py-4 border-t border-border-subtle flex gap-2">
         <button
-          onClick={() => {
-            if (selectedOption !== null) {
-              const opt = options[selectedOption];
-              onApprove(opt.title, opt.mentionedPerson, opt.mentionedPersonName, opt.rawBody);
-            }
-          }}
-          disabled={selectedOption === null || isCommitting}
+          onClick={() => onApprove(
+            blindspot.title,
+            "sarah-chen",
+            "Sarah Chen",
+            actionSection || blindspot.content
+          )}
+          disabled={isCommitting}
           className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-[14px] font-medium transition-colors disabled:opacity-40"
-          style={{
-            background: selectedOption !== null ? "var(--color-accent)" : "var(--color-elevated)",
-            color: selectedOption !== null ? "#fff" : "var(--color-ink-muted)",
-          }}
+          style={{ background: "var(--color-accent)", color: "#fff" }}
         >
           {isCommitting ? (
             <Loader2 size={14} strokeWidth={1.5} className="animate-spin" />
           ) : (
             <CheckCircle size={14} strokeWidth={1.5} />
           )}
-          {isCommitting ? "Approving..." : selectedOption !== null ? "Approve" : "Select an option above"}
+          {isCommitting ? "Approving..." : "Approve & assign to Sarah Chen"}
         </button>
         <button
           onClick={onDecline}

@@ -326,7 +326,7 @@ export default function Home() {
                   isCommitting={isCommitting}
                   committed={committed}
                   onFileClick={setDrawerFile}
-                  onViewPerson={() => setActiveUser("dan")}
+                  onViewPerson={() => setActiveUser("action-owner")}
                   approvedPersonName={approvedPersonName}
                 />
               </div>
@@ -341,7 +341,7 @@ export default function Home() {
                   </div>
                   {approvedPersonName && (
                     <button
-                      onClick={() => setActiveUser("dan")}
+                      onClick={() => setActiveUser("action-owner")}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[13px] text-accent border border-accent/30 hover:bg-accent/[0.05] transition-colors"
                     >
                       View {approvedPersonName}&apos;s dashboard
