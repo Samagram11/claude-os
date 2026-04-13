@@ -32,7 +32,8 @@ interface ParsedOption {
   description: string;
   upside: string;
   risk: string;
-  mentionedPerson: string | null; // wiki key of the person mentioned
+  rawBody: string; // full markdown body of this option section
+  mentionedPerson: string | null;
   mentionedPersonName: string | null;
 }
 
@@ -70,6 +71,7 @@ function parseOptions(content: string): ParsedOption[] {
       description: stripWikiLinks(descLines[0]?.replace(/^[-*]\s*/, "").trim() || ""),
       upside: stripWikiLinks(upsideMatch?.[1]?.trim() || ""),
       risk: stripWikiLinks(riskMatch?.[1]?.trim() || ""),
+      rawBody: body,
       mentionedPerson: person?.key || null,
       mentionedPersonName: person?.name || null,
     });
@@ -79,7 +81,7 @@ function parseOptions(content: string): ParsedOption[] {
 
 interface BlindspotCardProps {
   blindspot: BlindspotData;
-  onApprove: (option: string, personKey: string | null, personName: string | null) => void;
+  onApprove: (option: string, personKey: string | null, personName: string | null, fullOptionText: string) => void;
   onDecline: () => void;
   isCommitting: boolean;
   committed: boolean;
@@ -245,7 +247,7 @@ export default function BlindspotCard({
           onClick={() => {
             if (selectedOption !== null) {
               const opt = options[selectedOption];
-              onApprove(opt.title, opt.mentionedPerson, opt.mentionedPersonName);
+              onApprove(opt.title, opt.mentionedPerson, opt.mentionedPersonName, opt.rawBody);
             }
           }}
           disabled={selectedOption === null || isCommitting}

@@ -195,7 +195,7 @@ export async function runAgent(config: AgentConfig): Promise<AgentResult> {
   while (continueLoop) {
     const requestParams: Anthropic.MessageCreateParams = {
       model,
-      max_tokens: config.extendedThinking ? 16000 : 1500,
+      max_tokens: config.extendedThinking ? 16000 : 4096,
       system: config.systemPrompt,
       tools: agentTools,
       messages,

@@ -60,6 +60,7 @@ export default function Home() {
   const [committed, setCommitted] = useState(false);
   const [approvedOption, setApprovedOption] = useState<string | null>(null);
   const [approvedPersonName, setApprovedPersonName] = useState<string | null>(null);
+  const [approvedOptionDetail, setApprovedOptionDetail] = useState<string | null>(null);
 
   const updateAgent = useCallback((id: string, updates: Partial<AgentState>) => {
     setAgents((prev) => ({ ...prev, [id]: { ...prev[id], ...updates } }));
@@ -213,7 +214,7 @@ export default function Home() {
     setIsRunning(false);
   };
 
-  const handleApprove = async (option: string, personKey: string | null, personName: string | null) => {
+  const handleApprove = async (option: string, personKey: string | null, personName: string | null, fullOptionText: string) => {
     if (!blindspot) return;
     setIsCommitting(true);
     try {
@@ -225,6 +226,7 @@ export default function Home() {
       setCommitted(true);
       setApprovedOption(option);
       setApprovedPersonName(personName);
+      setApprovedOptionDetail(fullOptionText);
     } catch { /* */ }
     setIsCommitting(false);
   };
@@ -244,6 +246,7 @@ export default function Home() {
     setCommitted(false);
     setApprovedOption(null);
     setApprovedPersonName(null);
+    setApprovedOptionDetail(null);
     setVisibleSources(new Set());
     setAgentMessages([]);
   };
@@ -266,11 +269,9 @@ export default function Home() {
             <FolderOpen size={14} strokeWidth={1.5} className="text-ink-dim" />
             Meridian Wiki
           </button>
-          {!committed && (
-            <div className="px-3 py-2">
-              <UserSwitcher activeUser={activeUser} onSwitch={setActiveUser} />
-            </div>
-          )}
+          <div className="px-3 py-2">
+            <UserSwitcher activeUser={activeUser} onSwitch={setActiveUser} actionOwner={approvedPersonName} />
+          </div>
         </div>
         <div className="flex items-center gap-2 px-6">
           <button onClick={handleReset} disabled={isRunning} className="flex items-center gap-2 px-3 py-2 rounded-lg text-body-sm text-ink-muted border border-border-subtle hover:bg-hover transition-colors disabled:opacity-30">
@@ -353,7 +354,7 @@ export default function Home() {
         ) : activeUser === "lin" ? (
           <RoadmapPlanner onFileClick={setDrawerFile} />
         ) : (
-          <DanView blindspot={blindspot} committed={committed} approvedOption={approvedOption} isRunning={isRunning} onBack={() => setActiveUser("priya")} onFileClick={setDrawerFile} />
+          <DanView blindspot={blindspot} committed={committed} approvedOption={approvedOption} approvedPersonName={approvedPersonName} approvedOptionDetail={approvedOptionDetail} isRunning={isRunning} onBack={() => setActiveUser("priya")} onFileClick={setDrawerFile} />
         )}
       </div>
 

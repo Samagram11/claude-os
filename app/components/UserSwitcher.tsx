@@ -13,16 +13,28 @@ export const USERS: UserProfile[] = [
   { id: "lin", name: "Lin Zhang", role: "Head of Product", initials: "LZ" },
 ];
 
+// Maps person names to initials for dynamic override
+function getInitials(name: string): string {
+  return name.split(" ").map((w) => w[0]).join("").toUpperCase();
+}
+
 interface UserSwitcherProps {
   activeUser: string;
   onSwitch: (userId: string) => void;
+  actionOwner?: string | null; // If set, overrides the "dan" user's display name
 }
 
-export default function UserSwitcher({ activeUser, onSwitch }: UserSwitcherProps) {
+export default function UserSwitcher({ activeUser, onSwitch, actionOwner }: UserSwitcherProps) {
   return (
     <div className="flex items-center gap-1">
       {USERS.map((user) => {
         const isActive = activeUser === user.id;
+
+        // Dynamic name override for the action owner slot
+        const displayName = (user.id === "dan" && actionOwner) ? actionOwner : user.name;
+        const displayInitials = (user.id === "dan" && actionOwner) ? getInitials(actionOwner) : user.initials;
+        const displayRole = (user.id === "dan" && actionOwner && actionOwner !== "Sarah Chen") ? "Action Owner" : user.role;
+
         return (
           <button
             key={user.id}
@@ -39,11 +51,11 @@ export default function UserSwitcher({ activeUser, onSwitch }: UserSwitcherProps
                 isActive ? "bg-accent text-white" : "bg-elevated text-ink-muted"
               }`}
             >
-              {user.initials}
+              {displayInitials}
             </div>
             <div className="text-left">
-              <span className="block leading-none">{user.name}</span>
-              <span className="text-[10px] text-ink-dim leading-none">{user.role}</span>
+              <span className="block leading-none">{displayName}</span>
+              <span className="text-[10px] text-ink-dim leading-none">{displayRole}</span>
             </div>
           </button>
         );
