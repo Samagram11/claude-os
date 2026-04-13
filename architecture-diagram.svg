@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 560" font-family="Inter, system-ui, sans-serif">
+  <defs>
+    <style>
+      .title { font-family: Georgia, serif; font-size: 22px; font-weight: 500; fill: #1a1a1a; }
+      .subtitle { font-family: Georgia, serif; font-size: 12.5px; fill: #777; }
+      .label { font-size: 10px; font-weight: 600; fill: #666; letter-spacing: 0.08em; text-transform: uppercase; }
+      .label-accent { font-size: 10px; font-weight: 600; fill: #D97757; letter-spacing: 0.08em; text-transform: uppercase; }
+      .node-title { font-size: 12px; font-weight: 600; fill: #1a1a1a; }
+      .node-desc { font-size: 10px; fill: #888; }
+      .node-detail { font-size: 9px; fill: #aaa; }
+      .arrow { stroke: #ccc; stroke-width: 1.2; fill: none; marker-end: url(#ah); }
+      .arrow-accent { stroke: #D97757; stroke-width: 1.4; fill: none; marker-end: url(#ah-a); }
+      .arrow-green { stroke: #7FA87F; stroke-width: 1.2; fill: none; stroke-dasharray: 5 3; marker-end: url(#ah-g); }
+    </style>
+    <marker id="ah" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 3.5 L 0 7" fill="none" stroke="#ccc" stroke-width="1"/>
+    </marker>
+    <marker id="ah-a" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 3.5 L 0 7" fill="none" stroke="#D97757" stroke-width="1.2"/>
+    </marker>
+    <marker id="ah-g" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="7" markerHeight="5" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 3.5 L 0 7" fill="none" stroke="#7FA87F" stroke-width="1"/>
+    </marker>
+  </defs>
+
+  <rect width="1040" height="560" fill="#fff"/>
+
+  <!-- Title -->
+  <text x="520" y="34" text-anchor="middle" class="title">ClaudeOS: The Agentic Operating System for Enterprises</text>
+  <text x="520" y="54" text-anchor="middle" class="subtitle">The constraint on enterprise AI is no longer model capability. It's coordination over shared state.</text>
+
+  <!-- ===== THE PROBLEM ===== -->
+  <rect x="16" y="72" width="1008" height="38" rx="8" fill="#f8f8f8" stroke="#e0e0e0"/>
+  <text x="40" y="88" class="node-title" font-size="11" fill="#999">Today</text>
+  <text x="90" y="88" class="node-desc">Engineers code with copilots. Sales drafts with assistants. CS summarizes with chatbots. Every team uses AI.</text>
+  <text x="40" y="102" class="node-title" font-size="11" fill="#c97064">The gap</text>
+  <text x="90" y="102" class="node-desc" fill="#c97064">These outputs are siloed. No system connects what one team's AI produces to what another team needs.</text>
+
+  <!-- ===== COL 1: DATA SOURCES ===== -->
+  <rect x="16" y="124" width="135" height="236" rx="10" fill="#fafafa" stroke="#e8e8e8"/>
+  <text x="83" y="146" text-anchor="middle" class="label">Any Data Source</text>
+
+  <rect x="28" y="160" width="111" height="26" rx="5" fill="#fff" stroke="#ddd" stroke-width="0.8"/>
+  <text x="83" y="177" text-anchor="middle" class="node-desc">Communication</text>
+
+  <rect x="28" y="192" width="111" height="26" rx="5" fill="#fff" stroke="#ddd" stroke-width="0.8"/>
+  <text x="83" y="209" text-anchor="middle" class="node-desc">CRM &amp; Workflow</text>
+
+  <rect x="28" y="224" width="111" height="26" rx="5" fill="#fff" stroke="#ddd" stroke-width="0.8"/>
+  <text x="83" y="241" text-anchor="middle" class="node-desc">Documents &amp; Data</text>
+
+  <rect x="28" y="256" width="111" height="26" rx="5" fill="#fff" stroke="#ddd" stroke-width="0.8"/>
+  <text x="83" y="273" text-anchor="middle" class="node-desc">Code &amp; Engineering</text>
+
+  <text x="83" y="306" text-anchor="middle" class="node-title" font-size="10.5" fill="#D97757">MCP Servers</text>
+  <text x="83" y="319" text-anchor="middle" class="node-detail">Model Context Protocol</text>
+  <text x="83" y="332" text-anchor="middle" class="node-detail">New sources plug in instantly</text>
+  <text x="83" y="345" text-anchor="middle" class="node-detail">No retraining required</text>
+
+  <!-- Arrows: sources → agents -->
+  <line x1="139" y1="173" x2="171" y2="188" class="arrow"/>
+  <line x1="139" y1="205" x2="171" y2="210" class="arrow"/>
+  <line x1="139" y1="237" x2="171" y2="232" class="arrow"/>
+  <line x1="139" y1="269" x2="171" y2="250" class="arrow"/>
+
+  <!-- ===== COL 2: DOMAIN AGENTS ===== -->
+  <rect x="171" y="124" width="155" height="236" rx="10" fill="#fafafa" stroke="#e8e8e8"/>
+  <text x="248" y="146" text-anchor="middle" class="label">Domain Agents</text>
+
+  <rect x="183" y="164" width="131" height="34" rx="6" fill="#fff" stroke="#bbb"/>
+  <text x="248" y="180" text-anchor="middle" class="node-title" font-size="11">Domain Agent</text>
+  <text x="248" y="192" text-anchor="middle" class="node-detail">Scoped to one function</text>
+
+  <rect x="183" y="204" width="131" height="34" rx="6" fill="#fff" stroke="#bbb"/>
+  <text x="248" y="220" text-anchor="middle" class="node-title" font-size="11">Domain Agent</text>
+  <text x="248" y="232" text-anchor="middle" class="node-detail">Different scope, same model</text>
+
+  <rect x="183" y="244" width="131" height="34" rx="6" fill="#fff" stroke="#bbb"/>
+  <text x="248" y="260" text-anchor="middle" class="node-title" font-size="11">Domain Agent</text>
+  <text x="248" y="272" text-anchor="middle" class="node-detail">Scales to N domains</text>
+
+  <text x="248" y="296" text-anchor="middle" fill="#ccc" font-size="11">⋮</text>
+
+  <text x="248" y="322" text-anchor="middle" class="node-detail">Scoped permissions per agent</text>
+  <text x="248" y="335" text-anchor="middle" class="node-detail">Coordinate via shared state</text>
+  <text x="248" y="348" text-anchor="middle" class="node-detail">Powered by Claude Sonnet</text>
+
+  <!-- Arrows: agents ↔ wiki -->
+  <line x1="314" y1="181" x2="346" y2="194" class="arrow"/>
+  <line x1="314" y1="221" x2="346" y2="221" class="arrow"/>
+  <line x1="314" y1="261" x2="346" y2="248" class="arrow"/>
+  <text x="332" y="175" text-anchor="middle" class="node-detail">enrich</text>
+
+  <!-- ===== COL 3: WORLD MODEL ===== -->
+  <rect x="346" y="124" width="200" height="236" rx="10" fill="#f7f6f3" stroke="#ccc"/>
+  <text x="446" y="146" text-anchor="middle" class="label">Company World Model</text>
+  <text x="446" y="159" text-anchor="middle" class="node-detail">Structured, persistent, version-controlled</text>
+
+  <rect x="358" y="172" width="176" height="26" rx="5" fill="#f0efec" stroke="#ddd" stroke-width="0.8"/>
+  <text x="446" y="189" text-anchor="middle" class="node-desc">People, roles, relationships</text>
+
+  <rect x="358" y="204" width="176" height="26" rx="5" fill="#f0efec" stroke="#ddd" stroke-width="0.8"/>
+  <text x="446" y="221" text-anchor="middle" class="node-desc">Projects, capabilities, status</text>
+
+  <rect x="358" y="236" width="176" height="26" rx="5" fill="#f0efec" stroke="#ddd" stroke-width="0.8"/>
+  <text x="446" y="253" text-anchor="middle" class="node-desc">Customers, deals, risks</text>
+
+  <rect x="358" y="280" width="176" height="20" rx="4" fill="#eceae6" stroke="#ccc" stroke-width="0.8"/>
+  <text x="446" y="294" text-anchor="middle" class="node-detail">Git-backed. Every write = attributed commit.</text>
+
+  <text x="446" y="320" text-anchor="middle" class="node-desc">No database. No vector store.</text>
+  <text x="446" y="334" text-anchor="middle" class="node-desc">Claude reads directly (1M context).</text>
+  <text x="446" y="348" text-anchor="middle" class="node-detail">Compounding — every scan makes the next smarter.</text>
+
+  <!-- Arrow: wiki → synthesis -->
+  <line x1="534" y1="220" x2="576" y2="220" class="arrow-accent"/>
+  <text x="556" y="212" text-anchor="middle" class="node-detail" fill="#D97757">read all</text>
+
+  <!-- ===== COL 4: SYNTHESIS AGENT ===== -->
+  <rect x="576" y="170" width="130" height="100" rx="10" fill="#fff" stroke="#D97757" stroke-width="1.6"/>
+  <text x="641" y="200" text-anchor="middle" class="label-accent">Synthesis</text>
+  <text x="641" y="216" text-anchor="middle" class="node-title" font-size="11" fill="#D97757">The Connector</text>
+  <text x="641" y="232" text-anchor="middle" class="node-desc">Reads entire world model</text>
+  <text x="641" y="246" text-anchor="middle" class="node-desc">Finds cross-cutting insights</text>
+  <text x="641" y="260" text-anchor="middle" class="node-detail">Powered by Claude Opus</text>
+
+  <!-- Arrow: synthesis → human -->
+  <line x1="706" y1="220" x2="748" y2="220" class="arrow-accent"/>
+  <text x="729" y="212" text-anchor="middle" class="node-detail" fill="#D97757">insight</text>
+
+  <!-- ===== COL 5: HUMAN JUDGMENT ===== -->
+  <rect x="748" y="124" width="276" height="236" rx="10" fill="#fdfcfa" stroke="#e8e5e0"/>
+  <text x="886" y="146" text-anchor="middle" class="label-accent">Human Judgment</text>
+  <text x="886" y="159" text-anchor="middle" class="node-detail">The system advises. Humans decide.</text>
+
+  <rect x="762" y="172" width="248" height="100" rx="6" fill="#fff" stroke="#D97757" stroke-width="1"/>
+  <text x="886" y="192" text-anchor="middle" class="node-title" font-size="11">Proactive Insights</text>
+  <text x="886" y="210" text-anchor="middle" class="node-desc">Cross-domain risks and opportunities</text>
+  <text x="886" y="224" text-anchor="middle" class="node-desc">surfaced before anyone asks.</text>
+
+  <text x="886" y="246" text-anchor="middle" class="node-detail">Make decisions · Assign tasks</text>
+  <text x="886" y="258" text-anchor="middle" class="node-detail">Plan strategy · Coordinate teams</text>
+
+  <!-- Multi-player -->
+  <rect x="762" y="284" width="248" height="30" rx="5" fill="#faf5f2" stroke="#D97757" stroke-width="0.8"/>
+  <text x="886" y="300" text-anchor="middle" class="node-title" font-size="10.5" fill="#D97757">Multi-player by default</text>
+  <text x="886" y="311" text-anchor="middle" class="node-detail">Personalized views per role. Decisions cascade.</text>
+
+  <!-- Audit + browse -->
+  <rect x="762" y="322" width="248" height="26" rx="5" fill="#fff" stroke="#ddd" stroke-width="0.8"/>
+  <text x="886" y="339" text-anchor="middle" class="node-desc">Browse world model + full audit trail</text>
+
+  <!-- Feedback arrow -->
+  <path d="M 762 342 Q 600 390, 446 358" class="arrow-green"/>
+  <text x="600" y="386" text-anchor="middle" class="node-detail" fill="#7FA87F">decisions feed back into world model</text>
+
+  <!-- ===== THE FLYWHEEL ===== -->
+  <rect x="16" y="390" width="1008" height="38" rx="8" fill="#faf5f2" stroke="#D97757" stroke-width="0.8"/>
+  <text x="520" y="408" text-anchor="middle" class="label-accent">The Flywheel</text>
+  <text x="520" y="421" text-anchor="middle" class="subtitle" style="font-style: normal;">Data flows in → Agents enrich the world model → The model compounds → Insights get sharper → Teams get faster</text>
+
+  <!-- ===== VALUE PROPS ===== -->
+  <rect x="16" y="444" width="330" height="100" rx="8" fill="#fafafa" stroke="#e8e8e8"/>
+  <text x="181" y="468" text-anchor="middle" class="node-title" font-size="11">From individual to team AI</text>
+  <text x="181" y="484" text-anchor="middle" class="node-desc">Every employee already uses AI individually.</text>
+  <text x="181" y="498" text-anchor="middle" class="node-desc">ClaudeOS connects those outputs into</text>
+  <text x="181" y="512" text-anchor="middle" class="node-desc">a shared system that coordinates</text>
+  <text x="181" y="526" text-anchor="middle" class="node-desc">across the entire organization.</text>
+
+  <rect x="356" y="444" width="330" height="100" rx="8" fill="#fafafa" stroke="#e8e8e8"/>
+  <text x="521" y="468" text-anchor="middle" class="node-title" font-size="11">Compounding knowledge</text>
+  <text x="521" y="484" text-anchor="middle" class="node-desc">The world model gets richer with every scan.</text>
+  <text x="521" y="498" text-anchor="middle" class="node-desc">Connections invisible yesterday become</text>
+  <text x="521" y="512" text-anchor="middle" class="node-desc">obvious today. Each cycle makes</text>
+  <text x="521" y="526" text-anchor="middle" class="node-desc">the next cycle smarter.</text>
+
+  <rect x="696" y="444" width="328" height="100" rx="8" fill="#fafafa" stroke="#e8e8e8"/>
+  <text x="860" y="468" text-anchor="middle" class="node-title" font-size="11">Measurable business impact</text>
+  <text x="860" y="484" text-anchor="middle" class="node-desc">Not "AI-powered insights" but concrete</text>
+  <text x="860" y="498" text-anchor="middle" class="node-desc">outcomes: retained revenue, faster</text>
+  <text x="860" y="512" text-anchor="middle" class="node-desc">decisions, risks caught before</text>
+  <text x="860" y="526" text-anchor="middle" class="node-desc">they become crises.</text>
+</svg>

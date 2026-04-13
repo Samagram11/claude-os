@@ -1,0 +1,17 @@
+ClaudeOS: The agentic operating system for enterprises
+If you want to go fast, go alone. If you want to go far, go together.
+
+Today’s agents are incredibly powerful for knowledge workers. From an engineer going from idea to PR in minutes, to a marketer fully automating their content creation, individual productivity gains have skyrocketed. However, these gains hit a ceiling if not effectively matched with coordination between colleagues. According to an Atlassian survey, 37% of executives report that AI has caused teams to waste time or head in the wrong direction. While individual output is increasing, so are failure modes of duplicated work, divergent outputs, and governance complexity. This memo outlines the predicted capability in the next year that can solve this problem, and how Anthropic can enable businesses to harness productivity gains of AI company-wide.
+
+Capability Prediction
+Research and trends suggest that within the next 12 months, a new capability will emerge: multi-agent systems that can maintain, update, and act on shared, structured representations of company state (“company world models”). Rather than individual agents operating in silos, centralized agent teams will read from and act upon a shared model of actions and artifacts. This “agentic OS” capability will be unlocked by a combination of two signals: advances in agent memory and the maturity of multi-agent orchestration frameworks. 
+
+Memory systems are evolving from simple RAG into structured, persistent representations of state and connections. The A-MEM architecture enables the dynamic creation of connection graphs as new data comes into the system, and retrieval based on relationships. Similarly, approaches like LLMWiki explore the notion of a persistent, compounding knowledge graph maintained by an LLM. Rather than retrieving information in text chunks, these new approaches enable agents to reason over holistic context. 
+
+Emerging orchestration systems are paving the way for multi-agent collaboration. Frameworks such as Paperclip and Claude Code’s own experimental agent teams enable multiple agents with distinct/scoped roles to collaborate on a shared task list, communicate between one another, and work on behalf of an organization instead of an individual. 
+
+As these two trends combine, the “agentic OS” within a business becomes possible. Instead of each employee operating their own isolated agents, organizations can deploy shared agent systems that maintain a unified company world model and coordinate within teams. The OS continually keeps the world model up-to-date by adding new context from connected data sources, and agent team members take actions on behalf of the human team members.
+
+Despite incredible progress, this capability will still likely have limitations within the next year. Keeping an company world model accurate at a large size company will come with challenges such as conflicting data between sources, misinterpretations by the LLM, and entity resolution. Retrieval over ever-growing systems of inter-connected knowledge may struggle at scale. Agents may still struggle with long-term tasks and contextual awareness, even as models advance.
+
+Nevertheless, the constraint on companies' AI is no longer model capability or individual productivity, but rather agent coordination over shared state. Even nascent versions of this capability will unlock unprecedented velocity, and Anthropic is perfectly suited to bring it to fruition. 
