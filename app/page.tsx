@@ -9,6 +9,7 @@ import FileDrawer from "./components/FileDrawer";
 import { BlindspotData } from "./components/types";
 import UserSwitcher from "./components/UserSwitcher";
 import DanView from "./components/DanView";
+import RoadmapPlanner from "./components/RoadmapPlanner";
 
 const AGENT_DEFS = [
   { id: "customer-signal", name: "Customer Agent", role: "Logs customer feature requests from email", source: "email" },
@@ -349,6 +350,8 @@ export default function Home() {
               </div>
             )}
           </div>
+        ) : activeUser === "lin" ? (
+          <RoadmapPlanner onFileClick={setDrawerFile} />
         ) : (
           <DanView blindspot={blindspot} committed={committed} approvedOption={approvedOption} isRunning={isRunning} onBack={() => setActiveUser("priya")} onFileClick={setDrawerFile} />
         )}

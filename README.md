@@ -99,6 +99,40 @@ Press **Reset** to restore the wiki to its seed state and clear all generated fi
 
 ---
 
+## Demo 2: Roadmap Planner (Agent Teams)
+
+The first demo shows **reactive** coordination — data flows in, agents find a blindspot. The second demo shows **proactive** coordination — a human initiates a task and an agent team collaborates to produce a deliverable.
+
+### How to run it
+
+1. Switch to **Lin Zhang** (Head of Product) in the user switcher
+2. Press **"Plan Q3 Roadmap"**
+3. Watch the agent team in action:
+   - **The Planner** breaks the task into research subtasks
+   - **Customer Agent**, **Product Agent**, and **Sales Agent** work in parallel — reading the wiki and reporting findings
+   - Agent messages appear in real-time showing what each agent found
+   - The Planner synthesizes all findings into a draft roadmap
+4. The roadmap is written to the Meridian Wiki and rendered inline
+5. Click **"View in wiki"** to see the full page in the file drawer
+
+### What this demonstrates
+
+This mirrors the **Claude Code Agent Teams** pattern:
+- A **lead agent** breaks work into subtasks and assigns them
+- **Domain agents** work in parallel with scoped read access to the wiki
+- Agents **message their findings** back to the lead
+- The lead **synthesizes** into a final deliverable
+- The wiki is the **shared state** that all agents read from
+
+### The smart connection
+
+The roadmap prioritizes based on what the wiki knows:
+- **Smart Alerts** is Priority 1 because Halcyon Health ($1M ARR) is at risk and the prototype already exists
+- **Dashboard Embedding** is Priority 2 because DataBridge Co ($320K ARR) is evaluating Tableau over this gap
+- If you ran Demo 1 first, the wiki is enriched with the blindspot data — making the roadmap even more informed
+
+---
+
 ## Key Design Decisions
 
 - **No database.** The wiki is git-tracked markdown. That IS the database.
