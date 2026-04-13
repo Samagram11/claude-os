@@ -12,7 +12,7 @@ Active and historical risks to customer renewals and expansion deals. Updated by
 
 | Date Flagged | Account | Risk | Severity | Status | Owner |
 |-------------|---------|------|----------|--------|-------|
-| 2026-03-15 | DataBridge Co | Competitor eval (Tableau) | Medium | Monitoring | [[sarah-chen]] |
+| 2026-03-15 | DataBridge Co | Competitor eval (Tableau) — DataBridge needs dashboard embedding for their client portal; Tableau offers it natively | Medium | Monitoring | [[sarah-chen]] |
 | 2026-04-12 | [[halcyon-health]] | Disengaged CTO/champion; competitor demos flagged; $1M ARR renewal May 5; cancellation window closes today. | Critical | Immediate Action Required | [[sarah-chen]] |
 
 ## Resolved Risks

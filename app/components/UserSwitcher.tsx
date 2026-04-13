@@ -10,6 +10,7 @@ export interface UserProfile {
 export const USERS: UserProfile[] = [
   { id: "priya", name: "Priya Sharma", role: "CEO", initials: "PS" },
   { id: "dan", name: "Sarah Chen", role: "Head of Sales", initials: "SC" },
+  { id: "lin", name: "Lin Zhang", role: "Head of Product", initials: "LZ" },
 ];
 
 interface UserSwitcherProps {

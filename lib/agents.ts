@@ -175,12 +175,19 @@ export async function runAgent(config: AgentConfig): Promise<AgentResult> {
   };
 
   const model = config.model || "claude-sonnet-4-6";
+
+  // Only include write_file tool if agent has write paths
+  const hasWritePaths = config.allowedWritePaths.length > 0;
+  const agentTools = hasWritePaths
+    ? tools
+    : tools.filter((t) => t.name !== "write_file");
+
+  const userMessage = hasWritePaths
+    ? "Scan your assigned data sources and update the relevant wiki pages. Be specific, cite evidence, and link to relevant wiki pages with [[wikilinks]]."
+    : "Read the wiki pages relevant to your task and report your findings. Be specific — cite names, numbers, dates.";
+
   const messages: Anthropic.MessageParam[] = [
-    {
-      role: "user",
-      content:
-        "Scan your assigned data sources and write your findings as a signal file. Be specific, cite evidence, and link to relevant wiki pages with [[wikilinks]].",
-    },
+    { role: "user", content: userMessage },
   ];
 
   let continueLoop = true;
@@ -190,7 +197,7 @@ export async function runAgent(config: AgentConfig): Promise<AgentResult> {
       model,
       max_tokens: config.extendedThinking ? 16000 : 1500,
       system: config.systemPrompt,
-      tools,
+      tools: agentTools,
       messages,
     };
 

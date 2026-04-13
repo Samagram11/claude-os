@@ -29,6 +29,7 @@ const WIKI_PATHS: Record<string, string> = {
   "q3-forecast": "wiki/finance/q3-forecast.md",
   "customer-requests": "wiki/customer-requests.md",
   "deal-risks": "wiki/deal-risks.md",
+  "q3-2026": "wiki/roadmaps/q3-2026.md",
   "schema": "schema.md",
 };
 

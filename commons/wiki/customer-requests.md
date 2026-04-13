@@ -13,6 +13,7 @@ Tracked requests from customer conversations, QBRs, and support tickets. Updated
 | 2025-09-15 | DataBridge Co | Scheduled report delivery | Shipped v3.1 | Completed Nov 2025 |
 | 2025-11-03 | Halcyon Health | Custom report templates | Shipped v3.1 | Bundled with scheduled delivery |
 | 2025-11-20 | TechFlow Inc | Dashboard embedding (iframe) | On roadmap | Planned for Q3 2026 |
+| 2026-03-10 | DataBridge Co | Dashboard embedding for client portal | On roadmap | Evaluating Tableau over this gap — $320K renewal at risk |
 | 2026-01-10 | Nexus Labs | Custom metrics builder | Under review | Needs scoping from [[lin-zhang]] |
 | 2026-02-08 | CloudPeak | SSO/SAML for subdomains | Shipped v3.2 | Completed Mar 2026 |
 | 2026-03-01 | Multiple (Q1 survey) | Rules-based alerting | Prototype exists | See [[smart-alerts]] — most requested feature |
