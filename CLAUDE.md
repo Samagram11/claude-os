@@ -1,7 +1,7 @@
 # Claude OS — Prototype
 
 ## What this is
-A working prototype of "Claude OS" — a multi-agent system that monitors a company's data sources (email, calendar, Slack, spreadsheets), maintains a shared world model (LLMWiki-style markdown knowledge base called "The Commons"), and surfaces critical cross-cutting insights ("blindspots") that no single person or agent could find alone.
+A working prototype of "Claude OS" — a multi-agent system that monitors a company's data sources (email, calendar, Slack, spreadsheets), maintains a shared world model (LLMWiki-style markdown knowledge base called "The Commons"), and surfaces critical cross-cutting insights ("blindspots") that no single person or agent could find alone. You can find more information about this capability in `memo.md` 
 
 ## The demo scenario
 A simulated 6-person startup. Four domain agents each see one piece of a developing crisis:
