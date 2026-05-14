@@ -148,8 +148,3 @@ Press **Reset** to restore the wiki to its seed state. Each run generates fresh 
 - simple-git (wiki version control)
 - react-markdown (wiki rendering)
 
----
-
-## Read More
-
-See [memo.md](memo.md) for the full thesis on why this capability matters and how it represents a major opportunity for Anthropic.
